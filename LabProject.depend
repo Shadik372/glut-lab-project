@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1777126530 source:c:\users\souad7\documents\labproject\main.cpp
+1777163066 source:c:\users\souad7\documents\labproject\main.cpp
 	<iostream>
 	<stdlib.h>
 	<GL/gl.h>
