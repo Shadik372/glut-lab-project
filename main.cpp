@@ -7,6 +7,103 @@ using namespace std;
 
 float moveX = 0.0f;
 
+// FLower
+void drawFlower(float x, float y, float r, float g, float b) {
+    // 1. Stem (Dark Green Rectangle)
+    glColor3f(0.0f, 0.4f, 0.1f);
+    glBegin(GL_QUADS);
+        glVertex2f(x - 3.0f, y);
+        glVertex2f(x + 3.0f, y);
+        glVertex2f(x + 3.0f, y + 25.0f);
+        glVertex2f(x - 3.0f, y + 25.0f);
+    glEnd();
+
+    // 2. Leaves (Horizontal Dark Green Bar)
+    glBegin(GL_QUADS);
+        glVertex2f(x - 12.0f, y + 8.0f);
+        glVertex2f(x + 12.0f, y + 8.0f);
+        glVertex2f(x + 12.0f, y + 14.0f);
+        glVertex2f(x - 12.0f, y + 14.0f);
+    glEnd();
+
+    // 3. Flower Head (8-Sided Octagon)
+    glColor3f(r, g, b); // Uses the color you pass into the function
+    glBegin(GL_POLYGON);
+        glVertex2f(x - 5.0f, y + 42.0f);  // Top Left
+        glVertex2f(x + 5.0f, y + 42.0f);  // Top Right
+        glVertex2f(x + 12.0f, y + 35.0f); // Right Top
+        glVertex2f(x + 12.0f, y + 25.0f); // Right Bottom
+        glVertex2f(x + 5.0f, y + 18.0f);  // Bottom Right
+        glVertex2f(x - 5.0f, y + 18.0f);  // Bottom Left
+        glVertex2f(x - 12.0f, y + 25.0f); // Left Bottom
+        glVertex2f(x - 12.0f, y + 35.0f); // Left Top
+    glEnd();
+
+    // 4. Flower Center (Small White Square)
+    glColor3f(1.0f, 1.0f, 1.0f); // Pure White
+    glBegin(GL_QUADS);
+        glVertex2f(x - 3.0f, y + 27.0f);
+        glVertex2f(x + 3.0f, y + 27.0f);
+        glVertex2f(x + 3.0f, y + 33.0f);
+        glVertex2f(x - 3.0f, y + 33.0f);
+    glEnd();
+}
+
+// Tree
+void drawTree(float x, float y) {
+    glLineWidth(2.0f); // Make sure outlines are crisp
+
+    // 1. TRUNK (Brown Rectangle)
+    glBegin(GL_QUADS);
+        glColor3f(0.35f, 0.16f, 0.0f); // Dark Brown
+        glVertex2f(x - 15.0f, y);           // Bottom-Left
+        glVertex2f(x + 15.0f, y);           // Bottom-Right
+        glVertex2f(x + 15.0f, y + 30.0f);   // Top-Right
+        glVertex2f(x - 15.0f, y + 30.0f);   // Top-Left
+    glEnd();
+
+    // Trunk Outline
+    glBegin(GL_LINE_LOOP);
+        glColor3f(0.0f, 0.0f, 0.0f); // Black
+        glVertex2f(x - 15.0f, y);
+        glVertex2f(x + 15.0f, y);
+        glVertex2f(x + 15.0f, y + 30.0f);
+        glVertex2f(x - 15.0f, y + 30.0f);
+    glEnd();
+
+    // 2. BOTTOM LEAVES (Green Triangle)
+    glBegin(GL_TRIANGLES);
+        glColor3f(0.1f, 0.5f, 0.1f); // Pine Green
+        glVertex2f(x - 45.0f, y + 30.0f); // Bottom-Left
+        glVertex2f(x + 45.0f, y + 30.0f); // Bottom-Right
+        glVertex2f(x,         y + 80.0f); // Top-Center
+    glEnd();
+
+    // Bottom Leaves Outline
+    glBegin(GL_LINE_LOOP);
+        glColor3f(0.0f, 0.0f, 0.0f);
+        glVertex2f(x - 45.0f, y + 30.0f);
+        glVertex2f(x + 45.0f, y + 30.0f);
+        glVertex2f(x,         y + 80.0f);
+    glEnd();
+
+    // 3. TOP LEAVES (Green Triangle)
+    glBegin(GL_TRIANGLES);
+        glColor3f(0.1f, 0.5f, 0.1f); // Pine Green
+        glVertex2f(x - 35.0f, y + 60.0f); // Bottom-Left (Overlaps bottom triangle)
+        glVertex2f(x + 35.0f, y + 60.0f); // Bottom-Right
+        glVertex2f(x,         y + 110.0f);// Top-Center
+    glEnd();
+
+    // Top Leaves Outline
+    glBegin(GL_LINE_LOOP);
+        glColor3f(0.0f, 0.0f, 0.0f);
+        glVertex2f(x - 35.0f, y + 60.0f);
+        glVertex2f(x + 35.0f, y + 60.0f);
+        glVertex2f(x,         y + 110.0f);
+    glEnd();
+}
+
 // Cloud
 void drawPixelCloud(float x, float y)
 {
@@ -445,20 +542,6 @@ void drawScene()
     }
     glEnd();
 
-    glLineWidth(2.0f);
-    glColor3f(0.0f, 0.0f, 0.0f);
-    glBegin(GL_LINE_LOOP);
-    for(int i = 0; i < 360; i++)
-    {
-        float pi = 3.1416f;
-        float A = (i * 2 * pi) / 360;
-        float r = 40.0f;
-        float x = r * cos(A) + 500.0f;
-        float y = r * sin(A) + 700.0f;
-        glVertex2f(x, y);
-    }
-    glEnd();
-
     // Animated Clouds
     glPushMatrix();
     glTranslatef(moveX, 0.0f, 0.0f);
@@ -466,6 +549,32 @@ void drawScene()
     drawPixelCloud(300.0f, 620.0f);
     drawPixelCloud(150.0f, 700.0f);
     glPopMatrix();
+
+
+    // Tree
+    // Left side yard
+    drawTree(70.0f, 150.0f);
+    drawTree(130.0f, 250.0f);
+    drawTree(80.0f, 350.0f);
+
+    // Right side yard
+    drawTree(530.0f, 150.0f);
+    drawTree(470.0f, 250.0f);
+    drawTree(520.0f, 350.0f);
+
+    // Flowers
+    // ==========================================
+    // FLOWER BED
+    // ==========================================
+
+    // Red Flower (Red=0.9, Green=0.0, Blue=0.0)
+    drawFlower(200.0f, 120.0f, 0.9f, 0.0f, 0.0f);
+
+    // White Flower (Red=1.0, Green=1.0, Blue=1.0)
+    drawFlower(230.0f, 120.0f, 1.0f, 1.0f, 1.0f);
+
+    // You can even make a blue one!
+    drawFlower(260.0f, 120.0f, 0.2f, 0.2f, 1.0f);
 
     glutSwapBuffers();
 }
